@@ -6,7 +6,7 @@ my $l = (1>2); #just for fun :-)
 
 foreach (keys %ENV ){
     my $ll = length($_);
-    if ($ll>$l) {$l = $ll};
+    $l = ($ll>$l) ? $ll:$l;
 }
 
 foreach (sort keys %ENV){
