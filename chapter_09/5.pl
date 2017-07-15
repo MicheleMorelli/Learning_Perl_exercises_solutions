@@ -1,15 +1,26 @@
 #!usr/bin/perl -w
-
-##Copyright (C) 20XX Yours Truly
 use strict;
-#Chapter 9, ex 5
-$^I = ".bak";
-my $count = 0;
-while (<>){
-    unless (m'##Copyright (C) 20XX'){
-	if (m@\A#!.+perl@) {
-	     $_.="\n##Copyright (C) 20XX Yours Truly\n";
+$^I = "~~";
+
+my @arr;
+my $f = 0;
+foreach (@ARGV){
+    open my $in, $_ or die "$!";
+    my $name = $_;
+    while (<$in>){
+	if (/##Copyright/){
+	    $f = 1;
+	    last;
 	}
-    print;
     }
+    close $in;
+    push @arr, $name if !$f;
+    $f = 0;
+}
+@ARGV = @arr;
+while (<>){
+    if (m@\A#!.+perl@) {
+	 $_.="##Copyright (C) 20XX Yours Truly\n";
+     }   
+     print;
 }
